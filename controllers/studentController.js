@@ -18,8 +18,8 @@ exports.student_add = (req, res, next) => {
                     bloodGroup: req.body.bloodGroup,
                     fatherName: req.body.fatherName,
                     motherName: req.body.motherName,
-                    course: req.body.course,
-                    staffName: req.body.staffName,
+                    courseId: req.body.courseId,
+                    staffId: req.body.staffId,
                     address: req.body.address,
                     studentImage: req.file.path || 'uploads\\profile-pic-default.jpg',
                     imageName: req.file.filename,
@@ -46,6 +46,8 @@ exports.student_add = (req, res, next) => {
 
 exports.all_student_list = (req, res, next) => {
     Student.find()
+        .populate('courseId')
+        .populate('staffId')
         .exec()
         .then(result => {
             const students = result;
@@ -58,8 +60,8 @@ exports.all_student_list = (req, res, next) => {
                     bloodGroup: doc.bloodGroup,
                     fatherName: doc.fatherName,
                     motherName: doc.motherName,
-                    course: doc.course,
-                    staffName: doc.staffName,
+                    courseId: doc.courseId,
+                    staffId: doc.staffId,
                     address: doc.address,
                     studentImage: doc.studentImage,
                     imageName: doc.filename,
@@ -82,6 +84,8 @@ exports.all_student_list = (req, res, next) => {
 exports.single_student_detail = (req, res, next) => {
     const id = req.params.id;
     Student.find({ _id: id })
+        .populate('courseId')
+        .populate('staffId')
         .exec()
         .then(result => {
             res.status(200).json({

@@ -1,5 +1,4 @@
 const Staff = require('../models/staffModel');
-const mongoose = require('mongoose');
 
 exports.staff_add = (req, res, next) => {
     Staff.find({ email: req.body.email })

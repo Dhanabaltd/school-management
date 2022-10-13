@@ -30,13 +30,15 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  course: {
+  courseId: {
     type: String,
-    required: true
+    required: true,
+    ref: 'Course'
   },
-  staffName: {
+  staffId: {
     type: String,
-    required: true
+    required: true,
+    ref: 'Staff'
   },
   address: {
     type: String,

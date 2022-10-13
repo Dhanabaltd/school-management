@@ -1,7 +1,8 @@
 const Course = require('../models/courseModal');
-const mongoose = require('mongoose');
+const Staff = require('../models/staffModel');
 
 exports.course_add = (req, res, next) => {
+    console.log('req.body.staffId', req.body.staffId)
     Course.find({ courseName: req.body.courseName })
         .exec()
         .then(course => {
@@ -9,11 +10,10 @@ exports.course_add = (req, res, next) => {
                 return res.status(409).json({
                     message: "Course Already Exists"
                 });
-            }else{
+            } else {
                 const course = new Course({
-                    _id: new mongoose.Types.ObjectId(),
                     courseName: req.body.courseName,
-                    staffName: req.body.staffName,
+                    staffId: req.body.staffId,
                     createdOn: new Date()
                 });
                 course.save().then(result => {
@@ -28,32 +28,31 @@ exports.course_add = (req, res, next) => {
                     });
                 });
             }
-            
         }).catch(err => {
             res.status(500).json({
                 error: err
             });
         });
-    
 
 
 };
 
 exports.all_course_list = (req, res, next) => {
     Course.find()
+        .populate('staffId', 'staffName')
         .exec()
         .then(result => {
-            const courses = result;
-            coursedetails = courses.map(doc => {
+            const course = result;
+            coursedetails = course.map(doc => {
                 return {
                     _id: doc._id,
-                    staffName: doc.staffName,
+                    staffId: doc.staffId,
                     courseName: doc.courseName,
                     createdOn: new Date(doc.createdOn),
                 }
             });
             res.status(200).json({
-                message: "All Courses  Lists",
+                message: "All Course details Lists",
                 data: coursedetails,
                 status: 200
             });
