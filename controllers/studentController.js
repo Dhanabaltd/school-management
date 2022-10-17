@@ -47,7 +47,10 @@ exports.student_add = (req, res, next) => {
 exports.all_student_list = (req, res, next) => {
     Student.find()
         .populate('courseId')
-        .populate('staffId')
+        .populate({
+            path: 'staffId',
+            model: 'Staff'
+        })
         .exec()
         .then(result => {
             const students = result;

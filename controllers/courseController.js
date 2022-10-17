@@ -67,6 +67,7 @@ exports.all_course_list = (req, res, next) => {
 exports.single_course_detail = (req, res, next) => {
     const id = req.params.id;
     Course.find({ _id: id })
+        // .populate('staffId', 'staffName')
         .exec()
         .then(result => {
             res.status(200).json({

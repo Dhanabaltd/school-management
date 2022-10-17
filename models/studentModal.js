@@ -36,7 +36,7 @@ const studentSchema = new mongoose.Schema({
     ref: 'Course'
   },
   staffId: {
-    type: String,
+    type: Array,
     required: true,
     ref: 'Staff'
   },
